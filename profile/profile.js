@@ -1,0 +1,1 @@
+require('./heatfiler').heatfiler.runNode('./output.json', ['C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\index.js']);

@@ -1,13 +1,36 @@
 const Constants = require('./Constants')
 const Utils = require('./Utils')
 
+const _ = require('lodash')
+
 class Board {
     constructor(size) {
         this.size = size
         this.board = (new Array(size).fill(Constants.EMPTY_SPACE)).map(item => (new Array(size).fill(Constants.EMPTY_SPACE)))
-        this.whiteQueens = []
-        this.blackQueens = []
+        this.whiteQueens = [{ x: 3, y: 0 }, { x: 2, y: 5 }]
+        this.blackQueens = [{ x: 0, y: 2 }, { x: 5, y: 3 }]
         this.currentPlayer = 'white'
+    }
+
+    move(queen, move, arrow) {
+        const player = Constants[this.currentPlayer]
+
+        // console.log('Setting square', this[player.queens][queen], 'to empty')
+        this.setSquare(Constants.EMPTY_SPACE, this[player.queens][queen])
+
+        // console.log('Setting new square as a queen', move)
+        this.setSquare(player.queen, move)
+        this[player.queens][queen] = move
+
+        // console.log('Setting arrow location to', arrow)
+        this.setSquare(Constants.ARROW, arrow)
+
+        // console.log('Moving to new player')
+        this.nextPlayer()
+    }
+
+    nextPlayer() {
+        this.currentPlayer = this.currentPlayer === 'white' ? 'black' : 'white'
     }
 
     moveQueen(index, colour, location) {
@@ -33,6 +56,8 @@ class Board {
     }
 
     setSquare(piece, location) {
+        if (!location) throw new Error('Location not provided to set square')
+
         this.board[this.size - location.y - 1][location.x] = piece
     }
 
@@ -42,8 +67,12 @@ class Board {
     }
 
     clone() {
-        const board = Object.assign(Object.create(Object.getPrototypeOf(this)), this)
-        board.board = board.board.map(row => row.slice())
+        const board = new Board(6)
+        board.whiteQueens = _.cloneDeep(this.whiteQueens)
+        board.blackQueens = _.cloneDeep(this.blackQueens)
+        board.currentPlayer = _.cloneDeep(this.currentPlayer)
+        board.board = _.cloneDeep(this.board)
+
         return board
     }
     
@@ -59,12 +88,27 @@ class Board {
 
             console.log(line)
         }
+        console.log()
     }
 
     getMovesForPlayer(player) {
         let moves = []
+
         for (const [queenIndex, queen] of this[player.queens].entries()) {
-            moves = moves.concat(this.movesFromSquare(queen).map(move => Object.assign(move, { queen: Number(queenIndex) })))
+            moves = moves.concat(
+                this.movesFromSquare(queen)
+                    .map(move => {
+                        this.setSquare(Constants.EMPTY_SPACE, queen)
+                        const arrowLocations = this.movesFromSquare(move)
+                        this.setSquare(player.queen, queen)
+                        return arrowLocations.map(arrow => ({
+                            arrow,
+                            x: move.x,
+                            y: move.y,
+                            queen: Number(queenIndex)
+                        }))
+                    })
+            ).flat()
         }
 
         return moves

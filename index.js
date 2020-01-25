@@ -3,44 +3,58 @@ const Constants = require('./Constants')
 
 const _ = require('lodash')
 
-function alphabeta(node, depth, alpha, beta, maximizingPlayer) {
-    const moves = board.getMovesForPlayer(node.currentPlayer)
-
-    if (depth === 0 || )
+function applyMove(board, move, player, clone = true) {
+    if (clone) {
+        const child = board.clone()
+        child.move(move.queen, move, move.arrow)
+        return child
+    } else {
+        board.move(move.queen, move, move.arrow)
+        return board
+    }
 }
 
-function getBestMove(board, colour, depth = 0) {
-    const player = Constants[colour]
-    const moves = board.getMovesForPlayer(player)
+function alphabeta(node, depth, alpha, beta, maximizingPlayer, lastMove) {
+    const player = Constants[node.currentPlayer]
+    const moves = node.getMovesForPlayer(player)
 
+    // terminal node
     if (moves.length === 0) {
-        return { [player.opponent] : 1 }
+        maximizingPlayer ? Infinity : -Infinity
     }
 
-    let result = { white: 0, black: 0 }
-
-    for (const [moveIndex, move] of moves.entries()) {
-        const tempBoard = board.clone()
-        tempBoard.moveQueen(move.queen, player.queen, move)
-        // console.log(tempBoard.board)
-        // tempBoard.displayBoard()
-        // console.log(move)
-        const arrowMoves = tempBoard.movesFromSquare(move)
-        // console.log(arrowMoves)
-
-        // console.log(arrowMoves)
-
-        tempBoard.setSquare(Constants.ARROW, _.sample(arrowMoves))
-
-        // tempBoard.displayBoard()
-        // console.log()
-
-        const branchResult = getBestMove(tempBoard, player.opponent, depth + 1)
-        result.white += branchResult.white || 0
-        result.black += branchResult.black || 0
+    // no search space left
+    if (depth === 0) {
+        const opponentMoves = node.getMovesForPlayer(Constants[player.opponent])
+        return [lastMove, opponentMoves.length - moves.length]
     }
 
-    return result
+    if (maximizingPlayer) {
+        value = -Infinity
+        valueMove = undefined
+        for (let move of moves) {
+            const [newValueMove, newValue] = alphabeta(applyMove(node, move, player), depth - 1, alpha, beta, false, move)
+            if (newValue > value) {
+                value = newValue
+                valueMove = newValueMove
+            }
+            alpha = Math.max(alpha, value)
+            if (alpha >= beta) break
+        }
+        return [valueMove, value]
+    } else {
+        value = Infinity
+        for (let move of moves) {
+            const [newValueMove, newValue] = alphabeta(applyMove(node, move, player), depth - 1, alpha, beta, true, move)
+            if (newValue < value) {
+                value = newValue
+                valueMove = newValueMove
+            }
+            beta = Math.min(beta, value)
+            if (alpha > beta) break
+        }
+        return [valueMove, value]
+    }
 }
 
 // BOARD SETUP
@@ -52,8 +66,23 @@ board.moveQueen(1, Constants.BLACK_QUEEN, { x: 5, y: 3 })
 board.moveQueen(0, Constants.WHITE_QUEEN, { x: 3, y: 0 })
 board.moveQueen(1, Constants.WHITE_QUEEN, { x: 2, y: 5 })
 
+// board.displayBoard()
+
 // RUNNING THE GAME
-while(1) {
-    console.log(getBestMove(board, 'white'))
-    break
+console.time('runtime')
+while (1) {
+    // console.log('White to move!')
+    let [move, score] = alphabeta(board, 1, -Infinity, Infinity, true)
+    if (move === undefined) { console.log('BLACK WINS'); break }
+    // console.log(move)
+    applyMove(board, move, Constants.white, false)
+    // board.displayBoard()
+
+    // console.log('Black to move!')
+    ;[move, score] = alphabeta(board, 1, -Infinity, Infinity, true)
+    if (move === undefined) { console.log('WHITE WINS'); break }
+    // console.log(move)
+    applyMove(board, move, Constants.black, false)
+    // board.displayBoard()
 }
+console.timeEnd('runtime')

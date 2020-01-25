@@ -1,0 +1,276 @@
+Statistical profiling result from isolate-0000022043C70260-v8.log, (73617 ticks, 1040 unaccounted, 0 excluded).
+
+ [Shared libraries]:
+   ticks  total  nonlib   name
+  46880   63.7%          C:\Program Files\nodejs\node.exe
+    426    0.6%          C:\WINDOWS\SYSTEM32\ntdll.dll
+      2    0.0%          C:\WINDOWS\System32\KERNELBASE.dll
+      2    0.0%          C:\WINDOWS\System32\KERNEL32.DLL
+
+ [JavaScript]:
+   ticks  total  nonlib   name
+   9305   12.6%   35.4%  LazyCompile: *moves.concat.movesFromSquare.map.move C:\Users\Alexander\Documents\GitHub\amazons\Board.js:100:26
+   5260    7.1%   20.0%  Builtin: FlattenIntoArray
+   2065    2.8%    7.8%  Builtin: CEntry_Return1_DontSaveFPRegs_ArgvOnStack_NoBuiltinExit
+   1660    2.3%    6.3%  Builtin: ArrayPrototypeSlice
+   1355    1.8%    5.2%  Builtin: GetProperty
+    955    1.3%    3.6%  LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+    737    1.0%    2.8%  Builtin: ExtractFastJSArray
+    610    0.8%    2.3%  Builtin: CEntry_Return1_DontSaveFPRegs_ArgvOnStack_BuiltinExit
+    526    0.7%    2.0%  LazyCompile: *baseClone C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:2620:23
+    294    0.4%    1.1%  Builtin: ArrayMap
+    280    0.4%    1.1%  Builtin: KeyedLoadIC_Megamorphic
+    243    0.3%    0.9%  Builtin: ArrayPrototypeFlat
+    217    0.3%    0.8%  Builtin: KeyedStoreIC_Megamorphic
+    171    0.2%    0.7%  LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    161    0.2%    0.6%  Builtin: ArgumentsAdaptorTrampoline
+    123    0.2%    0.5%  Builtin: ArraySingleArgumentConstructor_HoleySmi_DisableAllocationSites
+    113    0.2%    0.4%  Builtin: KeyedLoadIC
+    105    0.1%    0.4%  Builtin: LoadIC
+     69    0.1%    0.3%  Builtin: ObjectPrototypeHasOwnProperty
+     67    0.1%    0.3%  Builtin: ArrayConstructorImpl
+     59    0.1%    0.2%  Builtin: CompileLazy
+     55    0.1%    0.2%  Builtin: JSBuiltinsConstructStub
+     53    0.1%    0.2%  LazyCompile: *getAllKeys C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:5851:24
+     51    0.1%    0.2%  Builtin: Equal
+     49    0.1%    0.2%  Builtin: HasProperty
+     47    0.1%    0.2%  Builtin: KeyedStoreIC
+     45    0.1%    0.2%  Builtin: CallFunction_ReceiverIsAny
+     43    0.1%    0.2%  Builtin: Construct
+     38    0.1%    0.1%  Builtin: CallApiCallback_Argc1
+     36    0.0%    0.1%  Builtin: OrdinaryHasInstance
+     34    0.0%    0.1%  Builtin: ArrayConstructor
+     32    0.0%    0.1%  Builtin: RecordWrite
+     30    0.0%    0.1%  Builtin: ConstructFunction
+     29    0.0%    0.1%  LazyCompile: *baseGetTag C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:3063:24
+     27    0.0%    0.1%  LazyCompile: *initCloneObject C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:6167:29
+     26    0.0%    0.1%  Builtin: ObjectKeys
+     23    0.0%    0.1%  Builtin: ToNumberConvertBigInt
+     21    0.0%    0.1%  Builtin: Typeof
+     20    0.0%    0.1%  Builtin: GrowFastSmiOrObjectElements
+     19    0.0%    0.1%  Builtin: StringEqual
+     18    0.0%    0.1%  Builtin: Call_ReceiverIsAny
+     17    0.0%    0.1%  LazyCompile: *Stack C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:2280:19
+     17    0.0%    0.1%  Builtin: FastNewObject
+     17    0.0%    0.1%  Builtin: CallFunction_ReceiverIsNullOrUndefined
+     16    0.0%    0.1%  Builtin: StringToNumber
+     15    0.0%    0.1%  Builtin: StrictEqual
+     14    0.0%    0.1%  Builtin: ObjectPrototypeToString
+     13    0.0%    0.0%  Builtin: KeyedLoadICTrampoline
+     12    0.0%    0.0%  Builtin: LoadIC_FunctionPrototype
+     11    0.0%    0.0%  LazyCompile: *isBuffer buffer.js:424:36
+     11    0.0%    0.0%  Builtin: ObjectConstructor
+      7    0.0%    0.0%  Builtin: JSConstructStubGeneric
+      6    0.0%    0.0%  LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      5    0.0%    0.0%  Builtin: ToObject
+      3    0.0%    0.0%  LazyCompile: *initCloneArray C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:6148:28
+      3    0.0%    0.0%  Builtin: InterpreterEntryTrampoline
+      2    0.0%    0.0%  LazyCompile: ~initCloneArray C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:6148:28
+      2    0.0%    0.0%  LazyCompile: ~getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+      2    0.0%    0.0%  LazyCompile: ~applyMove C:\Users\Alexander\Documents\GitHub\amazons\index.js:6:19
+      2    0.0%    0.0%  LazyCompile: ~Board C:\Users\Alexander\Documents\GitHub\amazons\Board.js:7:16
+      2    0.0%    0.0%  LazyCompile: *stopAtBoundary C:\Users\Alexander\Documents\GitHub\amazons\Board.js:117:19
+      2    0.0%    0.0%  LazyCompile: *module.exports.move C:\Users\Alexander\Documents\GitHub\amazons\Utils.js:1:85
+      2    0.0%    0.0%  LazyCompile: *directions.map.direction C:\Users\Alexander\Documents\GitHub\amazons\Board.js:142:49
+      2    0.0%    0.0%  LazyCompile: *clone C:\Users\Alexander\Documents\GitHub\amazons\Board.js:69:10
+      2    0.0%    0.0%  Builtin: FunctionPrototypeHasInstance
+      1    0.0%    0.0%  LazyCompile: ~toNamespacedPath path.js:609:46
+      1    0.0%    0.0%  LazyCompile: ~move C:\Users\Alexander\Documents\GitHub\amazons\Board.js:15:9
+      1    0.0%    0.0%  LazyCompile: ~isObject C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:11743:22
+      1    0.0%    0.0%  LazyCompile: ~baseGetTag C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:3063:24
+      1    0.0%    0.0%  LazyCompile: ~ListCache C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:2008:23
+      1    0.0%    0.0%  LazyCompile: *movesFromSquare C:\Users\Alexander\Documents\GitHub\amazons\Board.js:128:20
+      1    0.0%    0.0%  LazyCompile: *arrowLocations.map.arrow C:\Users\Alexander\Documents\GitHub\amazons\Board.js:104:51
+      1    0.0%    0.0%  Builtin: InterpreterPushUndefinedAndArgsThenCall
+      1    0.0%    0.0%  Builtin: ArraySingleArgumentConstructor_Holey_DisableAllocationSites
+      1    0.0%    0.0%  Builtin: AllocateInNewSpace
+      1    0.0%    0.0%  Builtin: AdaptorWithBuiltinExitFrame
+
+ [C++]:
+   ticks  total  nonlib   name
+
+ [Summary]:
+   ticks  total  nonlib   name
+  25267   34.3%   96.0%  JavaScript
+      0    0.0%    0.0%  C++
+   1420    1.9%    5.4%  GC
+  47310   64.3%          Shared libraries
+   1040    1.4%          Unaccounted
+
+ [C++ entry points]:
+   ticks    cpp   total   name
+
+ [Bottom up (heavy) profile]:
+  Note: percentage shows a share of a particular caller in the total
+  amount of its parent calls.
+  Callers occupying less than 1.0% are not shown.
+
+   ticks parent  name
+  46880   63.7%  C:\Program Files\nodejs\node.exe
+  45777   97.6%    C:\Program Files\nodejs\node.exe
+  39546   86.4%      Builtin: ArrayPrototypeFlat
+  21822   55.2%        LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+  21536   98.7%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+  21505   99.9%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    286    1.3%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    286  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+  17668   44.7%        LazyCompile: *moves.concat.movesFromSquare.map.move C:\Users\Alexander\Documents\GitHub\amazons\Board.js:100:26
+  17668  100.0%          Builtin: ArrayMap
+  17639   99.8%            LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+   4490    9.8%      LazyCompile: *moves.concat.movesFromSquare.map.move C:\Users\Alexander\Documents\GitHub\amazons\Board.js:100:26
+   4490  100.0%        Builtin: ArrayMap
+   4476   99.7%          LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+   4449   99.4%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+   1053    2.3%      LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+   1025   97.3%        LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+   1024   99.9%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    943   92.1%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     81    7.9%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     28    2.7%        LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     28  100.0%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     28  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+
+   9305   12.6%  LazyCompile: *moves.concat.movesFromSquare.map.move C:\Users\Alexander\Documents\GitHub\amazons\Board.js:100:26
+   9305  100.0%    Builtin: ArrayMap
+   9289   99.8%      LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+   9238   99.5%        LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+   9218   99.8%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+   8551   92.8%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    667    7.2%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+
+   5260    7.1%  Builtin: FlattenIntoArray
+   5260  100.0%    Builtin: ArrayPrototypeFlat
+   2642   50.2%      LazyCompile: *moves.concat.movesFromSquare.map.move C:\Users\Alexander\Documents\GitHub\amazons\Board.js:100:26
+   2642  100.0%        Builtin: ArrayMap
+   2633   99.7%          LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+   2620   99.5%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+   2613   49.7%      LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+   2581   98.8%        LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+   2577   99.8%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+   2417   93.8%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    160    6.2%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     32    1.2%        LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     32  100.0%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     32  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+
+   2065    2.8%  Builtin: CEntry_Return1_DontSaveFPRegs_ArgvOnStack_NoBuiltinExit
+   1164   56.4%    C:\Program Files\nodejs\node.exe
+   1144   98.3%      Builtin: ArrayPrototypeFlat
+    579   50.6%        LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+    571   98.6%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    568   99.5%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      8    1.4%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      8  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    565   49.4%        LazyCompile: *moves.concat.movesFromSquare.map.move C:\Users\Alexander\Documents\GitHub\amazons\Board.js:100:26
+    565  100.0%          Builtin: ArrayMap
+    565  100.0%            LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+     19    1.6%      LazyCompile: *baseClone C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:2620:23
+     15   78.9%        LazyCompile: *baseClone C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:2620:23
+     15  100.0%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     14   93.3%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      1    6.7%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      4   21.1%        LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      4  100.0%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      4  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    868   42.0%    Builtin: ArrayPrototypeFlat
+    486   56.0%      LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+    479   98.6%        LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    478   99.8%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    440   92.1%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     38    7.9%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      7    1.4%        LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      7  100.0%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      7  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    381   43.9%      LazyCompile: *moves.concat.movesFromSquare.map.move C:\Users\Alexander\Documents\GitHub\amazons\Board.js:100:26
+    381  100.0%        Builtin: ArrayMap
+    379   99.5%          LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+    378   99.7%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+
+   1660    2.3%  Builtin: ArrayPrototypeSlice
+   1448   87.2%    LazyCompile: *moves.concat.movesFromSquare.map.move C:\Users\Alexander\Documents\GitHub\amazons\Board.js:100:26
+   1448  100.0%      Builtin: ArrayMap
+   1443   99.7%        LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+   1435   99.4%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+   1435  100.0%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    200   12.0%    LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+    193   96.5%      LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    193  100.0%        LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    178   92.2%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    178  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     15    7.8%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     14   93.3%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      1    6.7%            Script: ~<anonymous> C:\Users\Alexander\Documents\GitHub\amazons\index.js:1:11
+      7    3.5%      LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      7  100.0%        LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      7  100.0%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      7  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+
+   1355    1.8%  Builtin: GetProperty
+   1355  100.0%    Builtin: ArrayPrototypeFlat
+    741   54.7%      LazyCompile: *moves.concat.movesFromSquare.map.move C:\Users\Alexander\Documents\GitHub\amazons\Board.js:100:26
+    741  100.0%        Builtin: ArrayMap
+    741  100.0%          LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+    733   98.9%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      8    1.1%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    612   45.2%      LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+    604   98.7%        LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    603   99.8%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    565   93.7%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     38    6.3%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      8    1.3%        LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      8  100.0%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      8  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+
+   1040    1.4%  UNKNOWN
+     41    3.9%    LazyCompile: *baseClone C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:2620:23
+     25   61.0%      LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     24   96.0%        LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     24  100.0%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     24  100.0%            Script: ~<anonymous> C:\Users\Alexander\Documents\GitHub\amazons\index.js:1:11
+      1    4.0%        LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      1  100.0%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      1  100.0%            Script: ~<anonymous> C:\Users\Alexander\Documents\GitHub\amazons\index.js:1:11
+     15   36.6%      LazyCompile: *baseClone C:\Users\Alexander\Documents\GitHub\amazons\node_modules\lodash\lodash.js:2620:23
+     13   86.7%        LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     13  100.0%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     13  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      2   13.3%        LazyCompile: *clone C:\Users\Alexander\Documents\GitHub\amazons\Board.js:69:10
+      2  100.0%          LazyCompile: ~applyMove C:\Users\Alexander\Documents\GitHub\amazons\index.js:6:19
+      2  100.0%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      1    2.4%      LazyCompile: *clone C:\Users\Alexander\Documents\GitHub\amazons\Board.js:69:10
+      1  100.0%        LazyCompile: ~applyMove C:\Users\Alexander\Documents\GitHub\amazons\index.js:6:19
+      1  100.0%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      1  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+
+    955    1.3%  LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+    913   95.6%    LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    913  100.0%      LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    851   93.2%        LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    851  100.0%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+    851  100.0%            Script: ~<anonymous> C:\Users\Alexander\Documents\GitHub\amazons\index.js:1:11
+     62    6.8%        LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     57   91.9%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     57  100.0%            Script: ~<anonymous> C:\Users\Alexander\Documents\GitHub\amazons\index.js:1:11
+      5    8.1%          Script: ~<anonymous> C:\Users\Alexander\Documents\GitHub\amazons\index.js:1:11
+      5  100.0%            LazyCompile: ~Module._compile internal/modules/cjs/loader.js:687:37
+     39    4.1%    LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     39  100.0%      LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     39  100.0%        LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     39  100.0%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     39  100.0%            Script: ~<anonymous> C:\Users\Alexander\Documents\GitHub\amazons\index.js:1:11
+
+    737    1.0%  Builtin: ExtractFastJSArray
+    737  100.0%    Builtin: ArrayPrototypeSlice
+    670   90.9%      LazyCompile: *moves.concat.movesFromSquare.map.move C:\Users\Alexander\Documents\GitHub\amazons\Board.js:100:26
+    670  100.0%        Builtin: ArrayMap
+    670  100.0%          LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+    666   99.4%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     65    8.8%      LazyCompile: *getMovesForPlayer C:\Users\Alexander\Documents\GitHub\amazons\Board.js:94:22
+     63   96.9%        LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     63  100.0%          LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+     56   88.9%            LazyCompile: *alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      7   11.1%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      2    3.1%        LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      2  100.0%          LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+      2  100.0%            LazyCompile: ~alphabeta C:\Users\Alexander\Documents\GitHub\amazons\index.js:17:19
+
