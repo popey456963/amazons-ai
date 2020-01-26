@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>flamebearer</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<style>
+    html, body { height: 100%; }
+    body { font: 16px "Helvetica Neue", sans-serif; margin: 0; }
+    body.hover { background: #cfc; }
+    h1 { font-size: 30px; margin: 30px 30px 15px; }
+    h1 a { color: black; text-decoration: none; }
+    h1 a:hover { text-decoration: underline; }
+    #fire-icon { fill: #f53; width: 26px; height: 26px; vertical-align: -1px; }
+    #intro { margin: 0 30px; }
+    code { font-size: 13px; color: #444; }
+    code span { color: #aaa; }
+    #canvas { width: 100%; }
+    #controls { display: none; }
+    #search { margin-right: 10px; }
+    #highlight { position: absolute; pointer-events: none; background: #ffffff40; }
+    .loaded #intro { display: none; }
+    .loaded #header { display: flex; align-items: center; flex-flow: row wrap; padding: 7px 10px; }
+    .loaded h1 { font-size: 22px; margin: 0 auto 0 0; flex-shrink: 0; }
+    .loaded #fire-icon { width: 20px; height: 20px; }
+    .loaded #controls { display: block; flex-shrink: 0; }
+    #tooltip { position: absolute; pointer-events: none; background: #ffffff; white-space: nowrap; box-shadow: 1px 2px 4px 0px rgba(0,0,0,0.3); border-radius: 2px; padding: 3px 5px; font: 12px Tahoma, sans-serif; display: none; }
+    #tooltip .path { color: #888; font-size: 11px; }
+    #tooltip .time { color: #4a4; }
+</style>
+</head>
+<body>
+
+<div id="header">
+    <h1><svg id="fire-icon" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15 15" style="enable-background:new 0 0 15 15;" xml:space="preserve"><path d="M7.5,0.5L5,4.5l-1.5-2 C2.9452,3.4753,0.8036,5.7924,0.8036,8.3036C0.8036,12.002,3.8017,15,7.5,15s6.6964-2.998,6.6964-6.6964 c0-2.5112-2.1416-4.8283-2.6964-5.8036l-1.5,2L7.5,0.5z M7.5,7c0,0,2.5,2.5618,2.5,4.5c0,0.8371-0.8259,2-2.5,2S5,12.3371,5,11.5 C5,9.6283,7.5,7,7.5,7z"/></svg> <a href="https://github.com/mapbox/flamebearer">flamebearer</a></h1>
+    <div id="controls">
+        <input id="search" placeholder="Search..." />
+        <button id="reset">Reset view</button>
+    </div>
+</div>
+<div id="highlight"></div>
+<div id="tooltip"></div>
+<div id="intro"><!--  --></div>
+<canvas id="canvas" height="0"></canvas>
+
+<!--  -->
+<script>'use strict';
+
+const introEl = document.getElementById('intro');
+const searchEl = document.getElementById('search');
+const highlightEl = document.getElementById('highlight');
+const tooltipEl = document.getElementById('tooltip');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+let names, levels, numTicks;
+
+names = ["(unknown)","(lib) C:\\WINDOWS\\SYSTEM32\\ntdll.dll","(unknown)","(lib) C:\\Program Files\\nodejs\\node.exe","~(anonymous) internal/bootstrap/context.js:1:1","~(anonymous) internal/bootstrap/primordials.js:1:1","~makeSafe internal/bootstrap/primordials.js:30:18","~copyProps internal/bootstrap/primordials.js:19:19","~(anonymous) internal/bootstrap/loaders.js:1:1","~(anonymous) internal/bootstrap/node.js:1:1","~nativeModuleRequire internal/bootstrap/loaders.js:182:29","~NativeModule.compile internal/bootstrap/loaders.js:291:42","~(anonymous) internal/options.js:1:1","~(anonymous) internal/util.js:1:1","~(anonymous) internal/errors.js:1:1","~E internal/errors.js:189:11","(builtin) ArrayForEach","~internalBinding internal/bootstrap/loaders.js:128:45","~(anonymous) internal/util/types.js:1:1","~setupTraceCategoryState internal/bootstrap/node.js:361:33","~setupProcessObject internal/bootstrap/node.js:390:28","~EventEmitter events.js:26:22","~(anonymous) internal/process/execution.js:1:1","~(anonymous) path.js:1:1","~(anonymous) internal/constants.js:1:1","~setupBuffer internal/bootstrap/node.js:463:21","~(anonymous) buffer.js:1:1","~(anonymous) internal/util/inspect.js:1:1","~(anonymous) internal/buffer.js:1:1","~(anonymous) internal/process/per_thread.js:1:1","~(anonymous) util.js:1:1","~(anonymous) internal/encoding.js:1:1","(builtin) StoreIC","~addListener events.js:270:58","~_addListener events.js:208:22","~(anonymous) internal/process/next_tick.js:1:1","~(anonymous) internal/fixed_queue.js:1:1","~setupGlobalTimeouts internal/bootstrap/node.js:475:29","~(anonymous) timers.js:1:1","(builtin) MapPrototypeGet","(builtin) FindOrderedHashMapEntry","~setupGlobalConsole internal/bootstrap/node.js:485:28","~(anonymous) internal/console/global.js:1:1","~setupGlobalURL internal/bootstrap/node.js:511:24","~(anonymous) internal/url.js:1:1","~setupDOMException internal/bootstrap/node.js:576:27","~(anonymous) internal/domexception.js:1:1","(bytecode) ~Construct","~(anonymous) internal/main/run_main_module.js:1:1","~(anonymous) internal/bootstrap/pre_execution.js:1:1","~resolve path.js:133:28","(bytecode) ~Ldar","~prepareMainThreadExecution internal/bootstrap/pre_execution.js:5:36","~loadPreloadModules internal/bootstrap/pre_execution.js:138:28","~(anonymous) internal/modules/cjs/loader.js:1:1","~(anonymous) vm.js:1:1","~(anonymous) fs.js:1:1","~(anonymous) url.js:1:1","(bytecode) ~LdaNamedProperty","~Module.runMain internal/modules/cjs/loader.js:790:26","~Module._load internal/modules/cjs/loader.js:534:24","~Module._resolveFilename internal/modules/cjs/loader.js:579:35","~Module._findPath internal/modules/cjs/loader.js:249:28","(builtin) RegExpPrototypeTest","~toRealPath internal/modules/cjs/loader.js:214:20","~realpathSync fs.js:1395:22","~validatePath internal/fs/utils.js:447:22","~nullCheck internal/fs/utils.js:188:19","~isUint8Array internal/util/types.js:28:22","~args internal/util/types.js:11:10","(bytecode) ~CallProperty2","~tryModuleLoad internal/modules/cjs/loader.js:567:23","~Module.load internal/modules/cjs/loader.js:622:33","~Module._extensions..js internal/modules/cjs/loader.js:747:37","~readFileSync fs.js:345:22","~tryStatSync fs.js:308:21","~tryReadSync fs.js:333:21","~readSync fs.js:490:18","~toString buffer.js:638:46","~Module._compile internal/modules/cjs/loader.js:687:37","~runInThisContext vm.js:310:26","~createScript vm.js:265:22","~Script vm.js:48:14","~(anonymous) C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:1:11","~require internal/modules/cjs/helpers.js:17:19","~Module.require internal/modules/cjs/loader.js:661:36","~join native array.js:295:46","~InnerArrayJoin native array.js:282:24","~stat internal/modules/cjs/loader.js:87:14","~tryPackage internal/modules/cjs/loader.js:186:20","~tryFile internal/modules/cjs/loader.js:206:17","~stringSlice buffer.js:584:21","~(anonymous) C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:1:11","~(anonymous) C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:9:11","~runInContext C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:1406:44","~(anonymous) C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:1438:31","(builtin) RegExpPrototypeExec","~(anonymous) C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:1475:35","~getNative C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:5972:23","~baseIsNative C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:3409:26","~isFunction C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:11647:24","~baseGetTag C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:3063:24","~getRawTag C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:5984:23","~memoizeCapped C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:6424:27","~memoize C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:10540:21","~MapCache C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:2125:22","~mapCacheClear C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:2143:27","~Hash C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:1904:18","~baseRest C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:3927:22","~overRest C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:6546:22","~createFlow C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:5071:24","~flatRest C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:5840:22","~mixin C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:15692:19","~baseFunctions C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:3014:27","~arrayFilter C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:574:23","~arrayEach C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:511:21","~(anonymous) C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:15706:38","~baseForOwn C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:2989:24","~(anonymous) C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:4897:22","~keys C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:13306:18","~baseKeys C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:3482:22","~(anonymous) C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:17025:78","(builtin) LoadIC_Noninlined","~tryCreateBuffer fs.js:318:25","~allocUnsafe buffer.js:287:42","~allocate buffer.js:314:18","~alignPool buffer.js:128:19","~createBoard C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:6:21","~alphabeta C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:100:19","~generatePlayerMoves C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:18:29","~generateQueenMoves C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:23:28","~shuffle C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:9816:21","~arrayShuffle C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:2441:26","~shuffleSelf C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:6711:25","~baseRandom C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:3864:24","(bytecode) ~Star","(bytecode) ~CreateArrayLiteral","~copyArray C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\node_modules\\lodash\\lodash.js:4739:23","(bytecode) ~LdaKeyedProperty","~generatePieceMoves C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:40:28","(builtin) Call_ReceiverIsAny","(bytecode) ~Mul","(stub) StoreFastElementStub","(builtin) ArrayPrototypePush","(builtin) KeyedStoreIC","generateQueenMoves C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:23:28","~applyMove C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:60:19","(bytecode) ~JumpIfToBooleanTrue","(builtin) MathRandom","generatePieceMoves C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:40:28","~migrate C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:54:17","(bytecode) ~ThrowReferenceErrorIfHole","(builtin) InterpreterEntryTrampoline","(bytecode) ~JumpIfFalse","~clone C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:91:15","(builtin) ArrayPrototypeValues","applyMove C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:60:19","(builtin) KeyedLoadIC_Megamorphic","alphabeta C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:100:19","(builtin) GrowFastSmiOrObjectElements","(builtin) KeyedLoadIC","(bytecode) ~TestEqualStrict","(bytecode) ~SubSmi","generatePlayerMoves C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:18:29","(builtin) CEntry_Return1_DontSaveFPRegs_ArgvOnStack_NoBuiltinExit","(builtin) RecordWrite","(builtin) CloneFastJSArray","(lib) C:\\WINDOWS\\System32\\KERNELBASE.dll","(builtin) CopyFastSmiOrObjectElements","(builtin) KeyedLoadICTrampoline","(builtin) ArgumentsAdaptorTrampoline","(builtin) CEntry_Return1_DontSaveFPRegs_ArgvOnStack_BuiltinExit","(lib) C:\\WINDOWS\\System32\\KERNEL32.DLL","(builtin) CallFunction_ReceiverIsAny","~print C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:79:15","~log internal/console/constructor.js:282:37","~Console.(anonymous function) internal/console/constructor.js:272:47","~get internal/console/constructor.js:149:10","~getStdout internal/process/stdio.js:12:21","~createWritableStdioStream internal/process/stdio.js:136:35","~(anonymous) tty.js:1:1","~(anonymous) net.js:1:1","~(anonymous) stream.js:1:1","~(anonymous) internal/streams/legacy.js:1:1","~(anonymous) _stream_readable.js:1:1","~WriteStream tty.js:74:21","~Socket net.js:230:16","~Console.(anonymous function) internal/console/constructor.js:253:49","~getColorDepth internal/tty.js:70:23","~(anonymous) os.js:1:1","~Console.(anonymous function) internal/console/constructor.js:213:46","~Writable.write _stream_writable.js:273:36","~writeOrBuffer _stream_writable.js:365:23","~doWrite _stream_writable.js:405:17","~Socket._write net.js:732:35","~Socket._writeGeneric net.js:695:42","~writeGeneric internal/stream_base_commons.js:114:22","~handleWriteReq internal/stream_base_commons.js:21:24","(bytecode) ~ToBooleanLogicalNot","(builtin) ArrayPrototypeSlice","clone C:\\Users\\Alexander\\Documents\\GitHub\\amazons\\new\\modules\\Board.js:91:15","(bytecode) ~Jump","~afterWriteDispatched internal/stream_base_commons.js:120:30","~onwrite _stream_writable.js:450:17","~nextTick internal/process/next_tick.js:109:18","~push internal/fixed_queue.js:95:7","(bytecode) ~JumpLoop","(bytecode) ~StaKeyedProperty","(builtin) ArrayIteratorPrototypeNext","(bytecode) ~JumpIfNotUndefined","(bytecode) ~TestGreaterThan","(bytecode) ~LdaGlobal","~TickObject internal/process/next_tick.js:87:14","(bytecode) ~LdaNull","~timeEnd internal/console/constructor.js:316:45","~timeLogImpl internal/console/constructor.js:334:21","~hrtime internal/process/per_thread.js:102:18","~runNextTicks internal/process/next_tick.js:45:22","~processTicksAndRejections internal/process/next_tick.js:54:35"];
+levels = [[0,1,0,0,27079,2],[0,1,1,0,604,1,0,233,2,0,2295,3,0,1,4,0,3,5,0,2,8,0,41,9,0,23891,48,0,5,167,0,4,172],[3133,1,3,0,1,3,0,2,6,0,2,3,0,3,3,0,13,10,0,1,19,0,1,20,0,9,25,0,1,32,0,1,33,0,4,37,0,3,41,0,4,43,0,1,45,0,1,10,0,1,50,0,11,52,0,23878,59],[3133,1,1,0,1,3,0,2,7,0,2,3,0,2,1,0,1,3,0,13,11,0,1,17,0,1,21,0,9,10,1,1,34,0,4,10,0,1,3,0,2,10,0,4,10,0,1,10,0,1,11,0,1,51,0,11,53,0,23877,60,0,1,217],[3135,2,3,5,1,12,0,6,13,0,3,22,0,2,29,0,1,35,0,1,3,0,1,3,0,9,11,1,1,3,0,4,11,0,1,3,0,2,11,0,4,11,0,1,11,0,1,49,1,1,3,0,10,10,0,1,3,0,5,61,0,23871,71,0,1,218],[3135,2,1,5,1,3,0,5,10,0,1,17,0,3,10,0,2,10,0,1,10,0,1,3,0,1,3,0,2,3,0,7,26,1,1,3,0,2,3,0,2,38,1,2,42,0,2,3,0,2,44,0,1,46,0,1,3,1,1,3,0,10,11,0,1,3,0,5,62,0,23871,72,0,1,3],[3142,1,1,0,5,11,0,1,3,0,3,11,0,2,11,0,1,11,2,2,3,0,1,3,0,6,10,2,2,3,0,2,10,1,1,3,0,1,10,0,2,3,0,2,3,0,1,47,0,1,3,2,1,3,0,9,54,1,1,63,0,4,64,0,23871,73,0,1,3],[3143,2,3,0,2,14,0,1,18,0,1,3,0,2,3,0,1,23,0,1,3,0,1,30,0,1,36,4,1,1,0,6,11,4,1,11,0,1,39,1,1,3,0,1,11,2,2,1,4,1,3,0,8,10,0,1,58,1,1,3,0,1,3,0,3,65,0,1,3,0,3,74,0,23867,79],[3143,2,3,0,1,3,0,1,15,0,1,3,1,2,3,0,1,10,0,1,3,0,1,10,0,1,3,5,4,3,0,1,27,0,1,28,4,1,3,0,1,40,2,1,3,9,8,11,2,1,3,0,1,3,0,1,3,0,1,66,0,1,70,0,1,3,0,1,75,0,1,76,0,1,78,0,2,80,0,23865,83],[3145,1,1,0,1,16,0,1,1,3,1,11,1,1,11,0,1,1,5,4,3,0,1,3,0,1,3,4,1,3,3,1,3,9,4,3,0,1,55,0,2,56,0,1,57,4,1,3,0,1,67,2,1,3,0,1,77,0,1,3,0,2,81,0,1,3,0,39,84,0,1,127,0,12124,128,0,11525,158,0,175,174],[3146,1,3,4,1,24,1,1,31,10,1,1,0,1,3,18,4,3,0,1,3,0,1,3,0,1,10,0,1,3,5,1,68,2,1,3,0,1,3,0,1,3,0,1,3,0,1,82,0,1,214,0,39,85,0,1,47,0,200,128,0,2,129,0,1,152,0,11919,158,0,1,162,0,1,173,0,2,3,0,6,128,0,1,145,0,1,156,0,11515,158,0,174,3,0,1,211],[3146,1,3,4,1,3,1,1,3,34,1,1,0,1,3,0,1,11,0,1,3,5,1,69,3,1,1,1,1,3,0,1,3,0,1,215,0,39,60,1,137,128,0,1,129,0,1,152,0,1,156,0,60,158,0,2,130,1,7,3,0,12,145,0,3,156,0,11887,158,0,1,168,0,7,170,0,2,171,2,2,3,0,6,128,0,1,149,5,16,3,0,3,128,0,14,145,0,2,156,0,11460,158,0,1,169,0,9,170,0,6,171,0,1,3,0,173,175],[3151,1,3,1,1,1,36,1,3,6,1,3,6,1,1,0,1,216,0,4,61,0,35,71,1,9,3,0,1,58,0,111,128,0,2,129,0,1,135,0,3,146,0,3,152,0,1,153,0,2,156,0,1,158,0,1,162,0,1,208,0,1,210,0,1,130,1,1,157,0,1,145,0,59,158,0,1,3,0,1,131,1,7,3,6,1,148,0,4,149,0,1,159,2,1,160,79,333,3,0,102,145,0,135,156,0,11214,158,0,5,159,0,16,169,0,3,170,14,6,128,6,15,3,0,1,171,0,2,128,0,1,156,5,1,148,0,6,149,0,1,159,0,1,165,88,422,3,0,154,145,0,8,146,0,175,156,0,10593,158,0,4,159,0,10,169,0,7,170,0,1,171,17,11,176,0,162,190],[3190,1,3,6,1,1,7,1,3,0,4,62,0,35,72,1,2,1,0,7,3,1,67,129,0,1,136,0,1,161,0,41,163,0,1,209,0,2,145,1,1,147,0,1,150,0,1,154,2,1,155,3,1,145,3,1,136,2,1,159,1,57,145,0,1,159,0,1,3,0,1,132,14,1,3,87,330,3,0,3,171,58,5,3,0,10,148,0,26,149,0,3,159,50,1,3,0,24,157,0,20,160,0,40,166,46,1,32,0,10672,145,0,45,149,0,449,159,0,1,164,38,6,163,22,2,163,6,1,3,96,417,3,0,5,171,72,6,3,0,1,32,0,22,148,0,46,149,0,7,159,0,1,3,0,2,58,0,1,154,0,1,173,0,2,198,0,1,200,70,2,3,0,39,157,0,21,160,0,43,166,41,1,32,0,10118,145,0,54,149,0,376,159,0,3,164,39,1,3,0,8,177,0,2,187,0,1,3,0,160,191,0,1,201],[3205,1,1,0,1,86,0,1,88,0,2,89,0,1,3,0,34,73,11,3,3,0,13,130,0,50,145,0,1,159,2,40,145,0,1,159,1,1,3,0,1,149,2,1,151,0,1,32,38,2,3,0,8,148,0,21,149,0,3,159,2,1,133,14,1,3,478,5,3,4,6,3,25,1,3,53,1,3,5030,3,1,0,300,3,0,50,32,0,1573,148,0,3497,149,0,291,159,0,11,164,0,48,165,533,5,130,0,1,145,22,1,3,0,1,130,6,1,3,590,6,3,14,9,3,53,1,3,2,1,199,3,1,166,71,1,3,4448,1,1,0,320,3,0,55,32,0,1353,148,0,3689,149,0,375,159,0,11,164,0,11,165,472,1,1,0,8,178,0,2,188,0,1,3,0,160,192],[3206,1,87,0,1,3,0,1,3,0,1,90,0,1,3,0,2,74,0,32,79,11,3,3,0,2,3,0,1,51,0,1,58,0,4,131,0,1,139,0,1,142,0,2,143,0,1,144,23,3,3,0,11,148,0,12,149,0,1,159,20,2,3,0,1,32,0,7,148,0,10,149,0,3,159,2,1,3,43,2,3,3,5,3,20,1,3,5,1,134,502,6,3,25,1,3,5111,274,3,0,2,164,690,932,3,0,1,164,3472,21,3,0,4,165,287,3,3,0,1,165,592,1,58,0,2,131,0,1,149,0,1,207,0,1,149,22,1,3,0,1,206,617,9,3,56,1,166,4534,307,3,0,4,164,605,801,3,0,2,164,3672,16,3,0,1,165,372,1,3,0,2,165,495,8,179,0,1,3,0,1,10,1,160,193],[3206,1,3,0,1,3,0,1,3,0,1,64,1,1,78,0,1,123,0,14,80,0,18,92,14,2,3,2,4,132,0,1,140,27,3,3,3,8,3,33,2,3,4,4,3,64,5,3,20,1,3,5,1,135,6611,922,3,0,10,164,3473,21,3,888,2,132,6160,792,3,0,9,164,3674,1,1,0,15,3,871,6,10,0,2,185,0,1,3,0,1,11,1,160,194],[3206,1,3,2,1,65,1,1,91,0,1,124,0,14,81,0,18,93,18,3,133,0,1,137,34,8,3,39,4,3,12021,1,133,0,1,170,11522,6,11,0,1,3,0,1,186,1,1,189,1,160,195],[3209,1,3,1,1,3,0,1,125,0,14,82,0,1,3,0,17,94,18,1,3,0,1,134,0,1,138,0,1,138,12106,1,3,11523,1,3,0,5,180,0,1,3,0,1,3,1,1,17,1,1,3,0,159,196],[3209,1,3,1,1,3,0,1,126,0,14,3,0,1,3,0,4,3,0,1,95,0,1,97,0,1,101,0,1,103,0,4,108,0,1,110,0,2,112,0,1,115,0,1,117,18,1,3,0,1,141,12108,1,3,11523,1,3,0,5,10,1,1,3,1,1,3,1,1,3,0,1,3,0,156,197,0,2,202],[3212,1,3,0,14,3,1,4,3,0,1,96,0,1,98,0,1,102,0,1,104,0,4,109,0,1,111,0,1,113,0,1,115,0,1,121,0,1,118,23653,5,11,3,1,3,2,1,3,0,156,3,0,2,203],[3212,1,1,19,1,3,0,1,99,0,1,3,0,1,105,0,3,2,0,1,3,0,1,109,0,1,114,0,1,116,0,1,122,0,1,119,23653,1,3,0,4,181,7,156,3,0,2,204],[3232,1,3,0,1,100,0,1,1,0,1,106,0,1,1,0,2,3,0,1,3,0,1,2,0,1,3,0,1,3,1,1,120,23653,1,3,0,3,10,0,1,17,163,1,205,0,1,212],[3233,1,101,1,1,107,4,1,3,0,1,3,0,1,3,1,1,3,23654,3,11,0,1,3,163,1,58,0,1,213],[3233,1,3,1,1,3,8,1,1,23654,3,182,0,1,3],[3233,1,1,1,1,3,23663,3,10],[26899,3,11],[26899,1,3,0,1,183,0,1,184],[26899,1,3,0,1,3,0,1,10],[26900,1,3,0,1,11],[26901,1,3],[26901,1,3]];
+numTicks = 27080;
+
+let rangeMin = 0;
+let rangeMax = 1;
+let topLevel = 0;
+let query = '';
+let graphWidth, pxPerTick;
+
+const pxPerLevel = 18;
+const collapseThreshold = 5;
+const hideThreshold = 0.5;
+const labelThreshold = 20;
+
+highlightEl.style.height = pxPerLevel + 'px';
+
+if (levels) {
+    init();
+}
+
+function init() {
+    document.body.classList.add('loaded');
+
+    // delta-decode bar positions
+    for (const level of levels) {
+        let prev = 0;
+        for (let i = 0; i < level.length; i += 3) {
+            level[i] += prev;
+            prev = level[i] + level[i + 1];
+        }
+    }
+
+    updateFromHash();
+    render();
+}
+
+window.onhashchange = () => {
+    updateFromHash();
+    render();
+};
+canvas.onclick = (e) => {
+    const {i, j} = xyToBar(e.offsetX, e.offsetY);
+    if (j === -1) return;
+    window.location.hash = [i, j].join(',');
+    removeHover();
+};
+document.getElementById('reset').onclick = () => {
+    searchEl.value = query = '';
+    window.location.hash = '';
+    render();
+};
+window.onresize = render;
+
+searchEl.oninput = (e) => {
+    query = e.target.value;
+    render();
+};
+
+function updateFromHash() {
+    const [i, j] = window.location.hash.substr(1).split(',').map(Number);
+
+    if (!isNaN(i) && !isNaN(j)) {
+        topLevel = i;
+        rangeMin = levels[i][j] / numTicks;
+        rangeMax = (levels[i][j] + levels[i][j + 1]) / numTicks;
+    } else {
+        topLevel = 0;
+        rangeMin = 0;
+        rangeMax = 1;
+    }
+}
+
+function tickToX(i) {
+    return (i - numTicks * rangeMin) * pxPerTick;
+}
+
+function render() {
+    if (!levels) return;
+
+    graphWidth = canvas.width = canvas.clientWidth;
+    canvas.height = pxPerLevel * (levels.length - topLevel);
+    canvas.style.height = canvas.height + 'px';
+
+    if (devicePixelRatio > 1) {
+        canvas.width *= 2;
+        canvas.height *= 2;
+        ctx.scale(2, 2);
+    }
+
+    pxPerTick = graphWidth / numTicks / (rangeMax - rangeMin);
+
+    ctx.textBaseline = 'middle';
+    ctx.font = '10px Tahoma, sans-serif';
+    ctx.strokeStyle = 'white';
+
+    for (let i = 0; i < levels.length - topLevel; i++) {
+        const level = levels[topLevel + i];
+
+        for (let j = 0; j < level.length; j += 3) {
+            const barIndex = level[j];
+            const x = tickToX(barIndex);
+            const y = i * pxPerLevel;
+            let numBarTicks = level[j + 1];
+
+            const inQuery = query && (names[level[j + 2]].indexOf(query) >= 0) || false;
+
+            // merge very small blocks into big "collapsed" ones for performance
+            const collapsed = numBarTicks * pxPerTick <= collapseThreshold;
+            if (collapsed) {
+                while (
+                    j < level.length - 3 &&
+                    barIndex + numBarTicks === level[j + 3] &&
+                    level[j + 4] * pxPerTick <= collapseThreshold &&
+                    (inQuery === (query && (names[level[j + 5]].indexOf(query) >= 0) || false))
+                ) {
+                    j += 3;
+                    numBarTicks += level[j + 1];
+                }
+            }
+
+            const sw = numBarTicks * pxPerTick - (collapsed ? 0 : 0.5);
+            const sh = pxPerLevel - 0.5;
+
+            if (x < -1 || x + sw > graphWidth + 1 || sw < hideThreshold) continue;
+
+            ctx.beginPath();
+            ctx.rect(x, y, sw, sh);
+
+            const ratio = numBarTicks / numTicks;
+
+            if (!collapsed) {
+                ctx.stroke();
+                const intensity = Math.min(1, ratio * Math.pow(1.16, i) / (rangeMax - rangeMin));
+                const h = 50 - 50 * intensity;
+                const l = 65 + 7 * intensity;
+                ctx.fillStyle = inQuery ? 'lightgreen' : `hsl(${h}, 100%, ${l}%)`;
+            } else {
+                ctx.fillStyle = inQuery ? 'lightgreen' : '#eee';
+            }
+            ctx.fill();
+
+            if (!collapsed && sw >= labelThreshold) {
+
+                const percent = Math.round(10000 * ratio) / 100;
+                const name = `${names[level[j + 2]]} (${percent}%, ${numBarTicks} samples)`;
+
+                ctx.save();
+                ctx.clip();
+                ctx.fillStyle = 'black';
+                ctx.fillText(name, Math.max(x, 0) + 1, y + sh / 2);
+                ctx.restore();
+            }
+        }
+    }
+}
+
+// pixel coordinates to bar coordinates in the levels array
+function xyToBar(x, y) {
+    const i = Math.floor(y / pxPerLevel) + topLevel;
+    const j = binarySearchLevel(x, levels[i]);
+    return {i, j};
+}
+
+// binary search of a block in a stack level
+function binarySearchLevel(x, level) {
+    let i = 0;
+    let j = level.length - 3;
+    while (i <= j) {
+        const m = 3 * ((i / 3 + j / 3) >> 1);
+        const x0 = tickToX(level[m]);
+        const x1 = tickToX(level[m] + level[m + 1]);
+        if (x0 <= x && x1 >= x) {
+            return x1 - x0 > collapseThreshold ? m : -1;
+        }
+        if (x0 > x) {
+            j = m - 3;
+        } else {
+            i = m + 3;
+        }
+    }
+    return -1;
+}
+
+if (window.orientation === undefined) {
+    canvas.onmousemove = addHover;
+    canvas.onmouseout = window.onscroll = removeHover;
+}
+
+function removeHover() {
+    canvas.style.cursor = '';
+    highlightEl.style.display = 'none';
+    tooltipEl.style.display = 'none';
+}
+
+function addHover(e) {
+    const {i, j} = xyToBar(e.offsetX, e.offsetY);
+
+    if (j === -1 || e.offsetX < 0 || e.offsetX > graphWidth) {
+        removeHover();
+        return;
+    }
+
+    canvas.style.cursor = 'pointer';
+
+    const level = levels[i];
+    const x = tickToX(level[j]);
+    const y = (i - topLevel) * pxPerLevel;
+    const sw = tickToX(level[j] + level[j + 1]) - x;
+
+    highlightEl.style.display = 'block';
+    highlightEl.style.left = x + 'px';
+    highlightEl.style.top = (canvas.offsetTop + y) + 'px';
+    highlightEl.style.width = sw + 'px';
+
+    const numBarTicks = level[j + 1];
+    const percent = Math.round(10000 * numBarTicks / numTicks) / 100;
+    const time = `<span class="time">(${percent}%, ${numBarTicks} samples)</span>`;
+    let content = names[level[j + 2]];
+    if (content[0] !== '(') content = content.replace(' ', ` ${time}<br><span class="path">`) + '</span>';
+    else content += ` ${time}`;
+
+    tooltipEl.innerHTML = content;
+    tooltipEl.style.display = 'block';
+    tooltipEl.style.left = (Math.min(e.offsetX + 15 + tooltipEl.clientWidth, graphWidth) - tooltipEl.clientWidth) + 'px';
+    tooltipEl.style.top = (canvas.offsetTop + e.offsetY + 12) + 'px';
+}
+
+// (function frame() { if (levels) render(); requestAnimationFrame(frame); })();
+
+
+</script>
+</body>
+</html>
