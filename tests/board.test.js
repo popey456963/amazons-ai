@@ -22,7 +22,7 @@ test('can set pieces', () => {
     expect(board.board[4][4] === 0)
 })
 
-test('it can find avaialable moves', () => {
+test('it can find available moves', () => {
     const board = new Board(6)
 
     board.board = [
@@ -34,5 +34,17 @@ test('it can find avaialable moves', () => {
         [3, 3, 0, 0, 0, 0]
     ]
 
-    console.log(board.movesFromSquare({ x: 0, y: 1 }))
+    expect(board.movesFromSquare({ x: 0, y: 1 })).toEqual(
+        [
+            { x: 1, y: 1 },
+            { x: 2, y: 1 },
+            { x: 3, y: 1 },
+            { x: 4, y: 1 },
+            { x: 5, y: 1 }
+        ]
+    )
+})
+
+test('move queen should work', () => {
+
 })

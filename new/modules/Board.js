@@ -26,8 +26,8 @@ function generateQueenMoves(board, queens) {
     for (let [qIndex, q] of queens.entries()) {
         const queenValue = board[q]
         board[q] = EMPTY_SPACE
-        for (let move of generatePieceMoves(board, q)) {
-            for (let arrow of generatePieceMoves(board, move)) {
+        for (let move of generatePieceMoves(board, q, true)) {
+            for (let arrow of generatePieceMoves(board, move, false)) {
                 availableMoves.push([qIndex, q, move, arrow])
             }
         }

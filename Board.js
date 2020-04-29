@@ -92,34 +92,30 @@ class Board {
     }
 
     getMovesForPlayer(player) {
-        let moves = []
+        let completeMoves = []
 
         for (const [queenIndex, queen] of this[player.queens].entries()) {
-            moves = moves.concat(
-                this.movesFromSquare(queen)
-                    .map(move => {
-                        this.setSquare(Constants.EMPTY_SPACE, queen)
-                        const arrowLocations = this.movesFromSquare(move)
-                        this.setSquare(player.queen, queen)
-                        return arrowLocations.map(arrow => ({
-                            arrow,
-                            x: move.x,
-                            y: move.y,
-                            queen: Number(queenIndex)
-                        }))
-                    })
-            ).flat()
+            const moves = this.movesFromSquare(queen)
+
+            this.setSquare(Constants.EMPTY_SPACE, queen)
+            for (let move of moves) {
+                move.queen = queenIndex
+                const arrowMoves = this.movesFromSquare(move)
+
+                for (let arrowMove of arrowMoves) {
+                    move.arrow = arrowMove
+                    completeMoves.push(move)
+                }
+            }
+            this.setSquare(player.queen, queen)
         }
 
-        return moves
+        return completeMoves
     }
 
     stopAtBoundary(locations) {
-        // console.log('locations', locations)
         for (let i = 0; i < locations.length; i++) {
             if (this.isSquareOccupied(locations[i])) {
-                // console.log(locations[i], 'returned true, returning up to', i, this.isSquareOccupied(locations[i]))
-                // console.log('returning', locations.slice(0, i))
                 return locations.slice(0, i)
             }
         }
